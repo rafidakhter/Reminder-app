@@ -155,17 +155,12 @@ def type_keyword_sorting(username,personal_item):
 
     ''' This function takes in the username and his personal item list to sort the users
     stored item into a list of key words and type
-    
-    the inputs are as following:
-
-    type_keyword_sorting(username,personal_item)
-    
-    * username: is a string
-    * personal_item: dictionary of saved item for the user
-
-    output:
-    a list [ary_keywords,ary_type]
-
+        the inputs are as following:
+            type_keyword_sorting(username,personal_item)
+            * username: is a string
+            * personal_item: dictionary of saved item for the user
+        output:
+            a list [ary_keywords,ary_type]
     '''
 
     ary_keywords=[]
@@ -184,7 +179,7 @@ def type_keyword_sorting(username,personal_item):
     return sorted_list
 
 sorted=type_keyword_sorting(username,personal_item)
-print(sorted)
+
 
 #the code below works making it a comment because do not want to continuously call on google API and be charged
 '''def get_user_location():
@@ -218,7 +213,7 @@ url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+u
 '''
 
 
-#the following is a example for searching for a place near the user:
+#the following is an example for searching for a place near the user:
 
 #userlocation = [longitudonal, lattitude, 1062]
 #keyword = sorted[0][0] = walmart
@@ -229,15 +224,12 @@ url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+u
 #nearby_request = urllib.request.urlopen(request_url).read()
 #nearby_response=json.loads(nearby_request)
 
-#the following was response when there is a RESULT FOUND in provided perameters
 
 #follwoing is the function for searching for for given keyword:
 
 def search_nearby(ul,kw,condotion):
     '''
     Notes:
-    takes in the following 
-    
         inputs:
             ul =user location 
             kw= keywords for location of the product puschase
@@ -462,20 +454,62 @@ def search_nearby(ul,kw,condotion):
         nearby_response=nearby_response_false
     if nearby_response['status']=="OK":
         store_perameter=[
-        nearby_response['results'][0]['viewport']['notheast']['lat'],
-        nearby_response['results'][0]['viewport']['notheast']['lng'],
-        nearby_response['results'][0]['viewport']['southwest']['lat'],
-        nearby_response['results'][0]['viewport']['southwest']['lng']
+        nearby_response_true['results'][0]["geometry"]['viewport']["northeast"]['lat'],
+        nearby_response_true['results'][0]["geometry"]['viewport']["northeast"]['lng'],
+        nearby_response_true['results'][0]["geometry"]['viewport']["southwest"]['lat'],
+        nearby_response_true['results'][0]["geometry"]['viewport']["southwest"]['lng']
         ]
         return store_perameter
 
 
-#store_nearby_=search_nearby(userlocation,keyword,true)
-
-#hello testing git
+test_store_nearby_parameter=search_nearby(userlocation,'walmart','true')
 
 
 
+#the perameters of the users location range will be to 0.0001169 degrees 
+'''
+NOTE:
+    13/111200=0.0001169 where 13 is the highest uncetanity in a cell phone gps from in an urban environment
+    'Smartphone GPS accuracy study in an urban environment'-Krista Merry, Pete Bettinger
+'''
+rng=0.0001169
+
+user_location_range=[userlocation[0]-rng,userlocation[1]+rng,userlocation[0]+rng,userlocation[1]-rng]
+print(user_location_range)
+print(test_store_nearby_parameter)
+
+
+def check_inside(ul,sl):
+
+    check_ary=[]
+
+    if ul[3]>sl[1] or ul[1]<sl[3]:
+        check_ary.append(False)
+    else:
+        check_ary.append(True)
+    
+    if ul[2]>sl[0] or ul[0]<sl[2]:
+        check_ary.append(False)
+    else:
+        check_ary.append(True)
+
+    if check_ary==[True,True]:
+        inside = True
+    else:
+        inside = False
+    print
+    return inside
+
+
+user_inside_store = check_inside(user_location_range,test_store_nearby_parameter)
+
+if user_inside_store == True:
+
+    print ('user inside the store')
+
+else:
+
+    print ('user not inside the store')
 
 
 
