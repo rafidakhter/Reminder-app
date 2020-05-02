@@ -35,19 +35,15 @@ personal_item ={
         
             {'item':'mouse',
             'where':'electronics_store'} 
-    ]
-}
-'''
-will be used for multiple user testing:  
-
+    ],
          'kath.443@hotmail.com':
 
-         [{'name':'tea','where':'grocery store'}
-          ,{'name':'milk','where':'grocery store'}
-          ,{'name':'pill','where':'pharmacy'}
-          ,{'name':'battery','where':'electronic store'} ]}
-          
-'''
+         [{'item':'tea','where':'grocery store'}
+          ,{'item':'milk','where':'grocery store'}
+          ,{'item':'pill','where':'pharmacy'}
+          ,{'item':'battery','where':'electronic store'} ]}
+
+#organising the items according to locations
 
 #list of different types of places within google library
 
@@ -186,7 +182,7 @@ sorted=type_keyword_sorting(username,personal_item)
 
     ''uses the google url post to get users location''
 
-    url_requested= 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyB4BdrazYRTttzy6H5XAu6ib7uL87bvgjk'
+    url_requested= 'https://www.googleapis.com/geolocation/v1/geolocate?key=INSERT GOOGLE API KEY'
     response = requests.post( url_requested)
     r=response.text
     x=json.loads(r)
@@ -199,11 +195,13 @@ sorted=type_keyword_sorting(username,personal_item)
 
 #userlocation = get_user_location()
 
-userlocation = [45.4279636, -75.6834408, 1062]
+userlocation = [4.413096, -75.651140, 1062]
 
 #below is an example of search for searching walmart near me
 
-'''inputs were:
+'''
+
+inputs were:
 
 userlocation = [longitudonal, lattitude, 1062]
 keyword = the place where the item is saved for the user
@@ -217,7 +215,7 @@ url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+u
 
 #userlocation = [longitudonal, lattitude, 1062]
 #keyword = sorted[0][0] = walmart
-#API_key = AIzaSyB4BdrazYRTttzy6H5XAu6ib7uL87bvgjk
+#API_key = ***** - collect from google API
 
 # request_url ='https://maps.googleapis.com/maps/api/place/nearbysearch/json?
 #               location={loc},{lat}&radius=500&keyword={key}&key={API}'.format(loc=userlocation[0],lat=userlocation[1],key=keyword,API=API_key)
@@ -249,7 +247,7 @@ def search_nearby(ul,kw,condotion):
     # the following code will be used to GET response from google API
     '''userlocation = ul
     keyword = kw
-    API_key = 'AIzaSyB4BdrazYRTttzy6H5XAu6ib7uL87bvgjk'
+    API_key = '*****************'
 
     request_url ='https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lng},{lat}&radius=500&keyword={key}&key={API}'.format(lng=userlocation[0],lat=userlocation[1],key=keyword,API=API_key)
     nearby_request = urllib.request.urlopen(request_url).read()
@@ -461,7 +459,6 @@ def search_nearby(ul,kw,condotion):
         ]
         return store_perameter
 
-
 test_store_nearby_parameter=search_nearby(userlocation,'walmart','true')
 
 
@@ -493,24 +490,19 @@ def check_inside(ul,sl):
     else:
         check_ary.append(True)
 
-    if check_ary==[True,True]:
-        inside = True
-    else:
+    if False in check_ary:
         inside = False
+    else:
+        inside = True
     print
     return inside
 
-
 user_inside_store = check_inside(user_location_range,test_store_nearby_parameter)
-
+print (username)
 if user_inside_store == True:
-
+    
     print ('user inside the store')
 
 else:
 
     print ('user not inside the store')
-
-
-
-
