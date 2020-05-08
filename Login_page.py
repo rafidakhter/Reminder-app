@@ -31,6 +31,8 @@ def execute_read_query(connection, query):
 
 
 def login_verification():
+    ''' verifies existing member or not, 
+    upon sucessful login returns a list [user_id,user_name]'''
     loggedin= False
 
     while loggedin == False:

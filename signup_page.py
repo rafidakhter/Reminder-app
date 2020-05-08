@@ -17,7 +17,7 @@ def create_connection(db_name, db_user, db_password, db_host, db_port):
         print(f"The error '{e}' occurred")
     return connection
 
-#Query function to create table  
+#Query function to read from table  
 def execute_read_query(connection, query):
     cursor = connection.cursor()
     result = None
