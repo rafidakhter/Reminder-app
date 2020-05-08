@@ -1,7 +1,6 @@
 import psycopg2
 from psycopg2 import OperationalError
 
-
 #connecting to the postgreSQL localserver
 def create_connection(db_name, db_user, db_password, db_host, db_port):
     connection = None
@@ -30,34 +29,31 @@ def execute_read_query(connection, query):
         print(f"The error '{e}' occurred")
 
 
-def login_verification():
-    loggedin= False
+def print_items():
 
-    while loggedin == False:
-
-        useremail_input =input('user email?') 
-        useremail= ("'"+ useremail_input + "'")
-        user_password = input('password?')
-        userpassword= ("'"+ user_password + "'")
+        user_id=1 
+        location = 'walmart'
+        name= 'Rafid'
 
         #because of the "@" in the email PostgreSQL the query doesnt work so the email is entered as a string thus adding extra quotation marks 
-        query = f'SELECT count(*) FROM registration WHERE email = {useremail} and password ={userpassword}'
+        query = f"SELECT count(*) item_name FROM saved_items WHERE user_id = '{user_id}' and purchase_location ='{location}'"
 
-        details_query= f'SELECT id,name FROM registration WHERE email = {useremail} and password ={userpassword} ' #the two queries can be combined together
+        item_query= f"SELECT item_name  FROM saved_items WHERE user_id = '{user_id}' and purchase_location ='{location}'"
 
         return_text=execute_read_query(connection, query)
 
         if return_text[0][0]>0:
-            user_detail=execute_read_query(connection, details_query)
-            user_id = user_detail[0][0]
-            name =user_detail[0][1]
-            list_return=[user_id,name]
-            print(f'Hi! {name}, you are logged in')
-            return list_return
+            item=execute_read_query(connection, item_query)
+
+            print(f'Hi! {name}, you are in{location}')
+            print('you wated to purchase the following item:')
+            for x in range(0,len(item)):
+                print(' * '+ item[x][0])
+
         else:
-            print('Please type correct Email and Password or Sign up')
+            pass
 
 connection = create_connection(
     "reminder_app", "postgres", "password", "127.0.0.1", "5432")
 
-userdetail=login_verification()
+print_items()
