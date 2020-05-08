@@ -29,8 +29,6 @@ def execute_read_query(connection, query):
         print(f"The error '{e}' occurred")
 
 #Parameters for creating connection with sql
-connection = create_connection(
-    "reminder_app", "postgres", "password", "127.0.0.1", "5432")
 
 # user email validation
 
