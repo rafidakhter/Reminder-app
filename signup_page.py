@@ -40,9 +40,6 @@ def execute_query(connection, query):
     connection.commit()
 
 
-#Parameters for creating connection with sql
-
-
 # user email validation
 
 def email_verification():
@@ -55,7 +52,7 @@ def email_verification():
         useremail= ("'"+ useremail_input + "'") 
 
         #because of the "@" in the email PostgreSQL the query doesnt work so the email is entered as a string thus adding extra quotation marks 
-        query = f'SELECT count(email) FROM registration WHERE email = {useremail}'
+        query = f'SELECT count(*) FROM registration WHERE email = {useremail}'
 
         return_text=execute_read_query(connection, query)
 
@@ -105,7 +102,7 @@ def add_data_registration(u_n,u_e,passw,con):
 
             submitted = True
 
-
+# The connection is for local 
 connection = create_connection(
     "reminder_app", "postgres", "password", "127.0.0.1", "5432")
 
