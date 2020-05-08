@@ -28,7 +28,20 @@ def execute_read_query(connection, query):
     except OperationalError as e:
         print(f"The error '{e}' occurred")
 
+#query for modifying database
+def execute_query(connection, query):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        print("Query executed successfully")
+    except OperationalError as e:
+        print(f"The error '{e}' occurred")
+
+    connection.commit()
+
+
 #Parameters for creating connection with sql
+
 
 # user email validation
 
@@ -53,23 +66,54 @@ def email_verification():
             newuser= True
             print('new user')
             return useremail_input
-    pass
+    
+
+
 def password_check():
-        ''' verify if the password is matching'''
+    ''' verify if the password is matching'''
     count = 0
     while count<1 :
         password = input('Password?')
         retype = input("retype password")
 
-        if password !== retype:
+        if password != retype:
             print('the retype password doesnt match')
             pass
         else:
             count =1
             return password
-    pass
+
+
+def add_data_registration(u_n,u_e,passw,con):
+    submitted = False
+    while submitted == False:
+
+        submit = input('type yes to submit y/n?')
+
+        if submit.lower()[0] == 'y':
+            u_n="'"+u_n+"'"
+            u_e="'"+u_e+"'"
+            passw= "'"+passw+"'"
+
+            query=f''' 
+            INSERT INTO  
+            registration (name, email,password)
+            
+            VALUES
+            ({u_n},{u_e},{passw});'''
+            execute_query(connection,query)
+
+            submitted = True
+
+
+connection = create_connection(
+    "reminder_app", "postgres", "password", "127.0.0.1", "5432")
+
+#user inputs:
 
 username= input('Name?')
 useremail= email_verification()
 password=password_check()
 
+#calling function above to add data to the table:
+add_data_registration(username,useremail,password,connection)
