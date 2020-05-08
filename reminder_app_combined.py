@@ -135,7 +135,8 @@ def login_verification(connection):
 
 #funtion to save new item 
 def save_new_item(u_id,connection):
-    for x in range (0,5):
+    new_item =True
+    while new_item== True:
         status = input('save new item? y/n: ')
         if status == 'y':
             user_id = u_id #collectd from login page
@@ -150,10 +151,10 @@ def save_new_item(u_id,connection):
                         ('{user_id}','{item}','{location}');'''
 
             submit=input('submit item y/n? ')
-
             if submit == 'y':
                 execute_query(connection,query_save_item)
-        x+=1
+        else:
+            new_item=False
 #-------------------------------------------xxxxxx---------------------------------------------------#
 #function to get users current location 
 # comment because do not want to continuously call on google API and be charged
