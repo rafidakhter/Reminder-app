@@ -161,7 +161,7 @@ def save_new_item(u_id,connection):
 def get_user_location():
     '''-take these quote mars off when using
     'uses the google url post to get users location[long,lat,acuracy]'
-    APIKEY='AIzaSyB4BdrazYRTttzy6H5XAu6ib7uL87bvgjk'
+    APIKEY='********************************' #user googleAPI
     url_requested= f'https://www.googleapis.com/geolocation/v1/geolocate?key={APIKEY}'
     response = requests.post( url_requested)
     r=response.text
